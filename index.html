@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>海豚社区 | 链上赚币新体验</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -25,50 +25,52 @@
             font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
         }
         
-        body {
+        html, body {
+            width: 100%;
+            overflow-x: hidden;
             background-color: var(--white);
             color: var(--text-dark);
             line-height: 1.6;
-            overflow-x: hidden;
         }
         
+        /* 容器 */
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+            width: 100%;
+            max-width: 100%;
+            padding: 0 16px;
         }
         
-        /* 头部样式 */
+        /* 头部 */
         header {
-            background-color: var(--white);
-            box-shadow: var(--shadow);
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1e40af 100%);
+            color: white;
+            padding: 20px 0;
             position: sticky;
             top: 0;
             z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
         
         .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 0;
         }
         
         .logo {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
         
         .logo-icon {
             color: var(--accent-color);
-            font-size: 28px;
+            font-size: 24px;
         }
         
         .logo-text {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 700;
-            color: var(--primary-color);
             letter-spacing: 0.5px;
         }
         
@@ -76,73 +78,94 @@
             color: var(--accent-color);
         }
         
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 32px;
-        }
-        
-        nav a {
-            text-decoration: none;
-            color: var(--text-dark);
-            font-weight: 500;
-            font-size: 16px;
-            transition: var(--transition);
-            padding: 8px 0;
-            position: relative;
-        }
-        
-        nav a:hover {
-            color: var(--secondary-color);
-        }
-        
-        nav a.active {
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-        
-        nav a.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background-color: var(--accent-color);
-            border-radius: 2px;
-        }
-        
-        .mobile-menu-btn {
-            display: none;
+        /* 菜单按钮 */
+        .menu-btn {
             background: none;
             border: none;
+            color: white;
             font-size: 24px;
-            color: var(--primary-color);
             cursor: pointer;
+        }
+        
+        /* 侧边菜单 */
+        .side-menu {
+            position: fixed;
+            top: 0;
+            right: -280px;
+            width: 280px;
+            height: 100%;
+            background-color: var(--white);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: var(--transition);
+            padding-top: 70px;
+            overflow-y: auto;
+        }
+        
+        .side-menu.active {
+            right: 0;
+        }
+        
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
+        
+        .menu-overlay.active {
+            display: block;
+        }
+        
+        .side-menu ul {
+            list-style: none;
+        }
+        
+        .side-menu li {
+            border-bottom: 1px solid #f1f5f9;
+        }
+        
+        .side-menu a {
+            display: block;
+            padding: 18px 24px;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .side-menu a:hover,
+        .side-menu a.active {
+            background-color: var(--light-blue);
+            color: var(--primary-color);
+            border-left: 4px solid var(--accent-color);
         }
         
         /* 英雄区域 */
         .hero {
-            padding: 80px 0 40px;
+            padding: 40px 0 30px;
             text-align: center;
             background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%);
-            border-radius: 0 0 30px 30px;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
         }
         
         .hero h1 {
-            font-size: 42px;
+            font-size: 28px;
             color: var(--primary-color);
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             font-weight: 700;
-            line-height: 1.2;
+            line-height: 1.3;
         }
         
         .hero p {
-            font-size: 18px;
+            font-size: 16px;
             color: var(--text-light);
-            max-width: 800px;
-            margin: 0 auto 40px;
+            max-width: 100%;
+            margin: 0 auto 25px;
         }
         
         .highlight {
@@ -150,90 +173,99 @@
             font-weight: 600;
         }
         
-        /* 九宫格布局 */
+        /* 主入口六宫格 */
         .grid-section {
-            padding: 40px 0 80px;
+            padding: 20px 0 40px;
         }
         
         .section-title {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 30px;
         }
         
         .section-title h2 {
-            font-size: 36px;
+            font-size: 24px;
             color: var(--primary-color);
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
         
         .section-title p {
             color: var(--text-light);
-            font-size: 18px;
-            max-width: 700px;
+            font-size: 15px;
+            max-width: 100%;
             margin: 0 auto;
         }
         
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 30px;
         }
         
         .grid-item {
             background: var(--white);
             border-radius: 16px;
             box-shadow: var(--shadow);
-            padding: 40px 30px;
+            padding: 25px 20px;
             text-align: center;
             transition: var(--transition);
             cursor: pointer;
             border: 1px solid #f1f5f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
         }
         
         .grid-item:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
             border-color: var(--accent-color);
         }
         
         .grid-icon {
-            width: 70px;
-            height: 70px;
+            width: 60px;
+            height: 60px;
             background-color: var(--light-blue);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 24px;
+            margin: 0 auto 16px;
             color: var(--primary-color);
-            font-size: 28px;
+            font-size: 24px;
         }
         
         .grid-item h3 {
-            font-size: 22px;
+            font-size: 18px;
             color: var(--primary-color);
-            margin-bottom: 16px;
+            margin-bottom: 12px;
+            line-height: 1.3;
         }
         
         .grid-item p {
             color: var(--text-light);
-            font-size: 15px;
-            line-height: 1.6;
+            font-size: 14px;
+            line-height: 1.5;
+            flex-grow: 1;
         }
         
         .btn {
             display: inline-block;
             background-color: var(--primary-color);
             color: white;
-            padding: 14px 32px;
+            padding: 12px 28px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 600;
-            font-size: 16px;
+            font-size: 15px;
             transition: var(--transition);
             border: none;
             cursor: pointer;
-            margin-top: 20px;
+            margin-top: 15px;
+            width: 100%;
+            text-align: center;
         }
         
         .btn:hover {
@@ -250,35 +282,87 @@
             background-color: #0891b2;
         }
         
-        .btn-small {
+        /* 便捷访问入口六宫格 */
+        .access-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 20px;
+        }
+        
+        .access-item {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 20px 15px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 1px solid #f1f5f9;
+            transition: var(--transition);
+        }
+        
+        .access-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent-color);
+        }
+        
+        .access-icon {
+            width: 50px;
+            height: 50px;
+            background-color: var(--light-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            color: var(--primary-color);
+            font-size: 20px;
+        }
+        
+        .access-item h4 {
+            font-size: 16px;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .access-link {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
             padding: 8px 16px;
-            font-size: 14px;
-            margin-top: 10px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 13px;
+            transition: var(--transition);
+        }
+        
+        .access-link:hover {
+            background-color: var(--accent-color);
         }
         
         /* 页脚 */
         footer {
             background-color: var(--primary-color);
             color: white;
-            padding: 60px 0 30px;
+            padding: 40px 0 20px;
             margin-top: 40px;
         }
         
         .footer-content {
             display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 40px;
+            flex-direction: column;
+            gap: 30px;
         }
         
         .footer-column {
-            flex: 1;
-            min-width: 250px;
+            width: 100%;
         }
         
         .footer-column h3 {
-            font-size: 20px;
-            margin-bottom: 24px;
+            font-size: 18px;
+            margin-bottom: 18px;
             color: var(--accent-color);
         }
         
@@ -294,6 +378,7 @@
             color: #e5e7eb;
             text-decoration: none;
             transition: var(--transition);
+            font-size: 14px;
         }
         
         .footer-links a:hover {
@@ -301,13 +386,30 @@
             padding-left: 5px;
         }
         
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .social-icons a {
+            color: white;
+            font-size: 20px;
+            transition: var(--transition);
+        }
+        
+        .social-icons a:hover {
+            color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+        
         .copyright {
             text-align: center;
-            padding-top: 40px;
-            margin-top: 40px;
+            padding-top: 30px;
+            margin-top: 30px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             color: #9ca3af;
-            font-size: 14px;
+            font-size: 13px;
         }
         
         /* 模态框样式 */
@@ -320,23 +422,19 @@
             height: 100%;
             background-color: rgba(0, 0, 0, 0.7);
             z-index: 1000;
-            justify-content: center;
-            align-items: center;
+            overflow-y: auto;
         }
         
         .modal-content {
             background-color: white;
-            width: 90%;
-            max-width: 800px;
-            border-radius: 20px;
-            padding: 40px;
+            width: 100%;
+            min-height: 100vh;
             position: relative;
-            max-height: 85vh;
-            overflow-y: auto;
+            padding: 60px 20px 40px;
         }
         
         .close-modal {
-            position: absolute;
+            position: fixed;
             top: 20px;
             right: 20px;
             font-size: 28px;
@@ -345,22 +443,32 @@
             color: var(--text-light);
             cursor: pointer;
             transition: var(--transition);
+            z-index: 1001;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         }
         
         .close-modal:hover {
             color: var(--primary-color);
+            transform: rotate(90deg);
         }
         
         .modal-title {
             color: var(--primary-color);
             margin-bottom: 20px;
-            font-size: 28px;
+            font-size: 24px;
         }
         
         .modal-subtitle {
             color: var(--primary-color);
             margin: 25px 0 15px;
-            font-size: 20px;
+            font-size: 18px;
         }
         
         .modal-list {
@@ -374,22 +482,22 @@
         
         .highlight-box {
             background-color: var(--light-blue);
-            padding: 20px;
+            padding: 18px;
             border-radius: 10px;
             margin: 20px 0;
             border-left: 4px solid var(--accent-color);
         }
         
+        /* 收益计算器样式 */
         .calculator-inputs {
             display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
+            flex-direction: column;
+            gap: 16px;
             margin: 20px 0;
         }
         
         .input-group {
-            flex: 1;
-            min-width: 200px;
+            width: 100%;
         }
         
         .input-group label {
@@ -397,12 +505,13 @@
             margin-bottom: 8px;
             font-weight: 600;
             color: var(--text-dark);
+            font-size: 15px;
         }
         
         .input-group input,
         .input-group select {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             border: 1px solid #d1d5db;
             border-radius: 8px;
             font-size: 16px;
@@ -421,6 +530,7 @@
             margin-bottom: 10px;
             padding-bottom: 10px;
             border-bottom: 1px solid #d1d5db;
+            font-size: 15px;
         }
         
         .result-item:last-child {
@@ -429,118 +539,107 @@
             color: var(--primary-color);
         }
         
-        .access-links {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-top: 20px;
+        /* 固定底部操作栏 */
+        .fixed-actions {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--white);
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+            padding: 12px 16px;
+            display: flex;
+            gap: 10px;
+            z-index: 99;
         }
         
-        .access-link {
-            background-color: var(--light-blue);
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
+        .action-btn {
+            flex: 1;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 14px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
             transition: var(--transition);
+            text-align: center;
+            text-decoration: none;
         }
         
-        .access-link:hover {
-            background-color: #dbeafe;
-            transform: translateY(-3px);
+        .action-btn.accent {
+            background-color: var(--accent-color);
         }
         
-        /* 响应式设计 */
-        @media (max-width: 992px) {
-            .grid-container {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .hero h1 {
-                font-size: 36px;
-            }
-            
-            .access-links {
-                grid-template-columns: 1fr;
-            }
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
         
-        @media (max-width: 768px) {
-            nav ul {
-                display: none;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .mobile-menu {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background-color: white;
-                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-                padding: 20px;
-                z-index: 99;
-            }
-            
-            .mobile-menu.active {
-                display: block;
-            }
-            
-            .mobile-menu ul {
-                list-style: none;
-            }
-            
-            .mobile-menu li {
-                margin-bottom: 15px;
-            }
-            
-            .mobile-menu a {
-                display: block;
-                padding: 12px;
-                border-radius: 8px;
-                transition: var(--transition);
-            }
-            
-            .mobile-menu a:hover {
-                background-color: var(--light-blue);
-            }
-            
-            .hero {
-                padding: 60px 0 30px;
+        /* 响应式调整 */
+        @media (min-width: 480px) {
+            .container {
+                padding: 0 20px;
             }
             
             .hero h1 {
                 font-size: 32px;
             }
             
-            .section-title h2 {
-                font-size: 30px;
+            .grid-item {
+                padding: 30px 20px;
             }
         }
         
-        @media (max-width: 576px) {
+        @media (min-width: 768px) {
+            /* 平板适配 */
             .grid-container {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
+            
+            .access-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
             }
             
             .hero h1 {
-                font-size: 28px;
+                font-size: 36px;
             }
             
             .section-title h2 {
-                font-size: 26px;
+                font-size: 28px;
+            }
+        }
+        
+        /* 禁止横屏时过大 */
+        @media (orientation: landscape) and (max-height: 500px) {
+            .hero {
+                padding: 30px 0 20px;
             }
             
-            .modal-content {
-                padding: 30px 20px;
+            .grid-item {
+                padding: 20px 15px;
             }
-            
-            .calculator-inputs {
-                flex-direction: column;
-            }
+        }
+        
+        /* 滚动条美化 */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--secondary-color);
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-color);
         }
     </style>
 </head>
@@ -553,32 +652,23 @@
                 <div class="logo-text">海豚<span>社区</span></div>
             </div>
             
-            <nav class="desktop-nav">
-                <ul>
-                    <li><a href="#home" class="active">首页</a></li>
-                    <li><a href="#about">关于我们</a></li>
-                    <li><a href="#strategy">社区策略</a></li>
-                    <li><a href="#calculator">收益计算器</a></li>
-                    <li><a href="#contact">联系我们</a></li>
-                </ul>
-            </nav>
-            
-            <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <button class="menu-btn" id="menuBtn">
                 <i class="fas fa-bars"></i>
             </button>
         </div>
-        
-        <!-- 移动端菜单 -->
-        <div class="mobile-menu" id="mobileMenu">
-            <ul>
-                <li><a href="#home" class="active">首页</a></li>
-                <li><a href="#about">关于我们</a></li>
-                <li><a href="#strategy">社区策略</a></li>
-                <li><a href="#calculator">收益计算器</a></li>
-                <li><a href="#contact">联系我们</a></li>
-            </ul>
-        </div>
     </header>
+    
+    <!-- 侧边菜单 -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+    <div class="side-menu" id="sideMenu">
+        <ul>
+            <li><a href="#home" class="active">首页</a></li>
+            <li><a href="#about">关于我们</a></li>
+            <li><a href="#strategy">社区策略</a></li>
+            <li><a href="#calculator">收益计算器</a></li>
+            <li><a href="#contact">联系我们</a></li>
+        </ul>
+    </div>
 
     <!-- 英雄区域 -->
     <section class="hero" id="home">
@@ -589,103 +679,67 @@
         </div>
     </section>
 
-    <!-- 九宫格区域 -->
+    <!-- 主入口六宫格 -->
     <section class="grid-section" id="grid">
         <div class="container">
             <div class="section-title">
                 <h2>海豚社区核心服务</h2>
-                <p>创新的链上赚币策略，通过九大核心模块为您提供全方位支持</p>
+                <p>创新的链上赚币策略，通过六大核心模块为您提供全方位支持</p>
             </div>
             
             <div class="grid-container">
-                <!-- 项目1: Boost活动介绍 -->
+                <!-- 入口1: Boost活动介绍 -->
                 <div class="grid-item" data-modal="boost">
                     <div class="grid-icon">
                         <i class="fas fa-rocket"></i>
                     </div>
                     <h3>Boost活动介绍</h3>
                     <p>通过参与活动，不仅能为社区创造关键数据，更能稳定获取OKX官方新币空投奖励</p>
-                    <button class="btn btn-small">查看详情</button>
                 </div>
                 
-                <!-- 项目2: 新人操作指南 -->
+                <!-- 入口2: 新人操作指南 -->
                 <div class="grid-item" data-modal="guide">
                     <div class="grid-icon">
                         <i class="fas fa-user-graduate"></i>
                     </div>
                     <h3>新人操作指南</h3>
                     <p>详细的新人参与指南，从下载钱包到完成首次交易，一步步带领您进入链上赚币世界</p>
-                    <button class="btn btn-small">查看详情</button>
                 </div>
                 
-                <!-- 项目3: 规则与奖励说明 -->
+                <!-- 入口3: 规则与奖励说明 -->
                 <div class="grid-item" data-modal="rules">
                     <div class="grid-icon">
                         <i class="fas fa-award"></i>
                     </div>
                     <h3>规则与奖励说明</h3>
                     <p>详细的参与规则与丰厚的奖励机制，了解如何最大化您的收益</p>
-                    <button class="btn btn-small">查看详情</button>
                 </div>
                 
-                <!-- 项目4: 社区策略 -->
+                <!-- 入口4: 社区策略 -->
                 <div class="grid-item" data-modal="strategy">
                     <div class="grid-icon">
                         <i class="fas fa-users"></i>
                     </div>
                     <h3>社区策略</h3>
                     <p>社区独家支持策略，四步参与法助您最大化收益并控制风险</p>
-                    <button class="btn btn-small">查看详情</button>
                 </div>
                 
-                <!-- 项目5: 收益计算器 -->
+                <!-- 入口5: 收益计算器 -->
                 <div class="grid-item" data-modal="calculator">
                     <div class="grid-icon">
                         <i class="fas fa-calculator"></i>
                     </div>
                     <h3>收益计算器</h3>
                     <p>直观的收益计算工具，根据您的质押情况预测未来收益</p>
-                    <button class="btn btn-small">查看详情</button>
                 </div>
                 
-                <!-- 项目6: 便捷访问入口 -->
+                <!-- 入口6: 便捷访问入口 -->
                 <div class="grid-item" data-modal="access">
                     <div class="grid-icon">
                         <i class="fas fa-door-open"></i>
                     </div>
                     <h3>便捷访问入口</h3>
                     <p>所有重要链接一站式访问，快速进入链上赚币平台</p>
-                    <button class="btn btn-small">查看详情</button>
-                </div>
-                
-                <!-- 项目7: 四步参与法 -->
-                <div class="grid-item" data-modal="steps">
-                    <div class="grid-icon">
-                        <i class="fas fa-footsteps"></i>
-                    </div>
-                    <h3>四步参与法</h3>
-                    <p>从质押获取弹药到循环滚动飞轮增长，详细参与步骤</p>
-                    <button class="btn btn-small">查看详情</button>
-                </div>
-                
-                <!-- 项目8: 社区支持与保障 -->
-                <div class="grid-item" data-modal="support">
-                    <div class="grid-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>社区支持与保障</h3>
-                    <p>风险缓冲机制与长期红利，社区为您保驾护航</p>
-                    <button class="btn btn-small">查看详情</button>
-                </div>
-                
-                <!-- 项目9: 奖励介绍 -->
-                <div class="grid-item" data-modal="rewards">
-                    <div class="grid-icon">
-                        <i class="fas fa-gift"></i>
-                    </div>
-                    <h3>奖励介绍</h3>
-                    <p>从新人奖励到邀请奖励，多重奖励机制等你来拿</p>
-                    <button class="btn btn-small">查看详情</button>
                 </div>
             </div>
         </div>
@@ -708,7 +762,7 @@
             <h3 class="modal-subtitle">如何查看我的数据？</h3>
             <p>打开 OKX Wallet → 底部菜单栏点击 【Boost】 → 查看您的实时交易量详情与排名</p>
             
-            <a href="https://web3.okx.com/zh-hans/boost/records" target="_blank" class="btn" style="margin-top: 30px;">查看Boost详细规则介绍</a>
+            <a href="https://web3.okx.com/zh-hans/boost/records" target="_blank" class="btn">查看Boost详细规则介绍</a>
         </div>
     </div>
 
@@ -720,7 +774,7 @@
             
             <h3 class="modal-subtitle">第一步：下载OKX Wallet</h3>
             <p>下载OKX Wallet并绑定邀请人：DPH777</p>
-            <a href="https://web3.okx.com/zh-hans/join/dph777" target="_blank" class="btn btn-small" style="margin: 10px 0 25px;">点击下载OKX Wallet</a>
+            <a href="https://web3.okx.com/zh-hans/join/dph777" target="_blank" class="btn btn-accent" style="margin: 10px 0 25px;">点击下载OKX Wallet</a>
             
             <h3 class="modal-subtitle">第二步：新手目标：达到一次Boost交易量：$500</h3>
             <p>我们使用OKX钱包的【兑换】交易【H】时，就会产生交易数据</p>
@@ -769,9 +823,9 @@
                 </ul>
             </div>
             
-            <div style="display: flex; gap: 15px; margin-top: 30px; flex-wrap: wrap;">
-                <a href="https://f.wps.cn/ksform/w/write/5rJjd9vy/" target="_blank" class="btn btn-small">填写表单</a>
-                <a href="https://web3.okx.com/ul/3yFdiPq" target="_blank" class="btn btn-small btn-accent">购买H代币</a>
+            <div style="display: flex; gap: 10px; margin-top: 30px; flex-wrap: wrap;">
+                <a href="https://f.wps.cn/ksform/w/write/5rJjd9vy/" target="_blank" class="btn">填写表单</a>
+                <a href="https://web3.okx.com/ul/3yFdiPq" target="_blank" class="btn btn-accent">购买H代币</a>
             </div>
         </div>
     </div>
@@ -797,7 +851,7 @@
                 <p><strong>长期红利：</strong>Boost活动高频开放。持续参与，即为社区创造长期流动性，同时为自己积累持续的官方空投收益。</p>
             </div>
             
-            <a href="https://oyidl.me/ul/S1ycxF8" target="_blank" class="btn" style="margin-top: 20px;">加入社区欧易红包群</a>
+            <a href="https://oyidl.me/ul/S1ycxF8" target="_blank" class="btn">加入社区欧易红包群</a>
         </div>
     </div>
 
@@ -865,7 +919,7 @@
                 <p><strong>收益说明：</strong>无锁仓，无周期限制，随存随取，收益根据达到的阶段利率发放，每日晚20点发放等值USDT的H，根据H在20点的价格折算</p>
             </div>
             
-            <a href="https://aosima858588-boop.github.io/-/" target="_blank" class="btn btn-small" style="margin-top: 20px;">访问高级计算器</a>
+            <a href="https://aosima858588-boop.github.io/-/" target="_blank" class="btn">访问高级计算器</a>
         </div>
     </div>
 
@@ -876,179 +930,70 @@
             <h2 class="modal-title">便捷访问入口</h2>
             <p>所有重要链接一站式访问，快速进入链上赚币平台</p>
             
-            <div class="access-links">
-                <div class="access-link">
-                    <i class="fas fa-link" style="font-size: 24px; color: var(--accent-color); margin-bottom: 10px;"></i>
-                    <h4>链上赚币平台</h4>
-                    <a href="https://hstaking.space/" target="_blank" class="btn btn-small">立即访问</a>
+            <div class="access-grid">
+                <div class="access-item">
+                    <div class="access-icon">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <h4>进入链上赚币</h4>
+                    <a href="https://hstaking.space/" target="_blank" class="access-link">立即访问</a>
                 </div>
                 
-                <div class="access-link">
-                    <i class="fas fa-shopping-cart" style="font-size: 24px; color: var(--accent-color); margin-bottom: 10px;"></i>
-                    <h4>购买H代币</h4>
-                    <a href="https://web3.okx.com/ul/3yFdiPq" target="_blank" class="btn btn-small">立即购买</a>
+                <div class="access-item">
+                    <div class="access-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <h4>立即购买 H</h4>
+                    <a href="https://web3.okx.com/ul/3yFdiPq" target="_blank" class="access-link">立即购买</a>
                 </div>
                 
-                <div class="access-link">
-                    <i class="fas fa-users" style="font-size: 24px; color: var(--accent-color); margin-bottom: 10px;"></i>
+                <div class="access-item">
+                    <div class="access-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
                     <h4>欧易社区红包群</h4>
-                    <a href="https://oyidl.me/ul/S1ycxF8" target="_blank" class="btn btn-small">加入群聊</a>
+                    <a href="https://oyidl.me/ul/S1ycxF8" target="_blank" class="access-link">加入群聊</a>
                 </div>
                 
-                <div class="access-link">
-                    <i class="fas fa-info-circle" style="font-size: 24px; color: var(--accent-color); margin-bottom: 10px;"></i>
-                    <h4>OKX Boost介绍</h4>
-                    <a href="https://web3.okx.com/zh-hans/boost/records" target="_blank" class="btn btn-small">查看详情</a>
+                <div class="access-item">
+                    <div class="access-icon">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <h4>OKX Boost 介绍</h4>
+                    <a href="https://web3.okx.com/zh-hans/boost/records" target="_blank" class="access-link">查看详情</a>
                 </div>
                 
-                <div class="access-link">
-                    <i class="fas fa-file-alt" style="font-size: 24px; color: var(--accent-color); margin-bottom: 10px;"></i>
+                <div class="access-item">
+                    <div class="access-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
                     <h4>填写质押表单</h4>
-                    <a href="https://f.wps.cn/ksform/w/write/5rJjd9vy/" target="_blank" class="btn btn-small">填写表单</a>
+                    <a href="https://f.wps.cn/ksform/w/write/5rJjd9vy/" target="_blank" class="access-link">填写表单</a>
                 </div>
                 
-                <div class="access-link">
-                    <i class="fas fa-bullhorn" style="font-size: 24px; color: var(--accent-color); margin-bottom: 10px;"></i>
+                <div class="access-item">
+                    <div class="access-icon">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
                     <h4>进入Boost频道</h4>
-                    <a href="http://www.sfw.vc/DPH_OKX" target="_blank" class="btn btn-small">进入频道</a>
+                    <a href="http://www.sfw.vc/DPH_OKX" target="_blank" class="access-link">进入频道</a>
+                </div>
+            </div>
+            
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #f1f5f9;">
+                <h3 class="modal-subtitle">其他重要链接</h3>
+                <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+                    <a href="https://web3.okx.com/zh-hans/join/dph777" target="_blank" class="btn">下载OKX Wallet</a>
+                    <a href="https://aosima858588-boop.github.io/-/" target="_blank" class="btn btn-accent">质押收益计算器</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 四步参与法模态框 -->
-    <div class="modal" id="stepsModal">
-        <div class="modal-content">
-            <button class="close-modal">&times;</button>
-            <h2 class="modal-title">四步参与法</h2>
-            
-            <div style="display: flex; flex-direction: column; gap: 30px; margin-top: 20px;">
-                <div style="display: flex; align-items: flex-start; gap: 20px;">
-                    <div style="background-color: var(--accent-color); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">1</div>
-                    <div>
-                        <h3 style="color: var(--primary-color); margin-bottom: 10px;">质押获取弹药</h3>
-                        <p>在社区平台质押USDT，每日20:00 (UTC+8) 稳定领取 H 代币收益。这是您"零成本"参与活动的核心本金。</p>
-                    </div>
-                </div>
-                
-                <div style="display: flex; align-items: flex-start; gap: 20px;">
-                    <div style="background-color: var(--accent-color); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">2</div>
-                    <div>
-                        <h3 style="color: var(--primary-color); margin-bottom: 10px;">择时兑换，放大价值</h3>
-                        <p>次日，根据群内流动性提示，将领取的H代币兑换为USDT或OKB。社区将协调资金入场支撑价格，旨在让您换得更多！</p>
-                    </div>
-                </div>
-                
-                <div style="display: flex; align-items: flex-start; gap: 20px;">
-                    <div style="background-color: var(--accent-color); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">3</div>
-                    <div>
-                        <h3 style="color: var(--primary-color); margin-bottom: 10px;">执行交易，积累数据</h3>
-                        <p>使用兑换到的资金，完成每日 2-5次 的兑换交易。关键技巧：可使用 "限价单" ，设置与市场价接近的报价，以几乎零成本的方式完成交易量（后期有教程）</p>
-                    </div>
-                </div>
-                
-                <div style="display: flex; align-items: flex-start; gap: 20px;">
-                    <div style="background-color: var(--accent-color); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">4</div>
-                    <div>
-                        <h3 style="color: var(--primary-color); margin-bottom: 10px;">循环滚动，飞轮增长</h3>
-                        <p>每日重复此过程。您的交易量将持续积累，奖励随之增长，形成 "收益越多 → 交易量越大 → 奖励更多" 的飞轮效应。</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="highlight-box" style="margin-top: 30px;">
-                <p><strong>📢 行动呼吁：</strong>立即完成质押，锁定明日H收益，等待我们的流动性提示！</p>
-            </div>
-            
-            <a href="https://hstaking.space/" target="_blank" class="btn" style="margin-top: 20px;">立即开始质押</a>
-        </div>
-    </div>
-
-    <!-- 社区支持与保障模态框 -->
-    <div class="modal" id="supportModal">
-        <div class="modal-content">
-            <button class="close-modal">&times;</button>
-            <h2 class="modal-title">社区支持与保障</h2>
-            
-            <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-top: 20px;">
-                <div style="flex: 1; min-width: 300px; background-color: var(--light-blue); padding: 25px; border-radius: 12px;">
-                    <i class="fas fa-shield-alt" style="font-size: 36px; color: var(--accent-color); margin-bottom: 15px;"></i>
-                    <h3 style="color: var(--primary-color); margin-bottom: 10px;">风险缓冲机制</h3>
-                    <p>活动期间，若因遵循社区策略产生的合理滑点损耗大于所获奖励价值，社区将评估后进行补偿。（具体细则将根据首批公测数据最终确定并公示）</p>
-                </div>
-                
-                <div style="flex: 1; min-width: 300px; background-color: var(--light-blue); padding: 25px; border-radius: 12px;">
-                    <i class="fas fa-chart-line" style="font-size: 36px; color: var(--accent-color); margin-bottom: 15px;"></i>
-                    <h3 style="color: var(--primary-color); margin-bottom: 10px;">长期红利保障</h3>
-                    <p>Boost活动高频开放。持续参与，即为社区创造长期流动性，同时为自己积累持续的官方空投收益。</p>
-                </div>
-            </div>
-            
-            <div class="highlight-box" style="margin-top: 30px;">
-                <h3>社区专属支持</h3>
-                <ul class="modal-list">
-                    <li><strong>实时策略指导：</strong>群内实时通知最佳交易时机和策略调整</li>
-                    <li><strong>流动性协调：</strong>社区协调大资金入场支撑H代币价格，确保兑换价值最大化</li>
-                    <li><strong>技术教程支持：</strong>提供详细的限价单设置教程，帮助您以最小成本完成交易量</li>
-                    <li><strong>数据监控提醒：</strong>社区监控您的Boost数据，及时提醒达到奖励标准</li>
-                </ul>
-            </div>
-            
-            <div style="display: flex; gap: 15px; margin-top: 30px; flex-wrap: wrap;">
-                <a href="https://oyidl.me/ul/S1ycxF8" target="_blank" class="btn">加入社区获取支持</a>
-                <a href="http://www.sfw.vc/DPH_OKX" target="_blank" class="btn btn-accent">进入Boost频道</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- 奖励介绍模态框 -->
-    <div class="modal" id="rewardsModal">
-        <div class="modal-content">
-            <button class="close-modal">&times;</button>
-            <h2 class="modal-title">奖励介绍</h2>
-            
-            <div class="highlight-box">
-                <h3>邀请奖励</h3>
-                <ul class="modal-list">
-                    <li><strong>累计邀请3位新人参与质押总额达2000U</strong><br>奖励：价值188U的H币 + 500U瓜分额度</li>
-                    <li><strong>累计邀请5位新人参与质押总额达5000U</strong><br>奖励：价值388U的H币 + 1000U瓜分额度</li>
-                    <li><strong>累计邀请10位新人参与质押总额达10000U</strong><br>奖励：价值888U的H币 + 3000U瓜分额度</li>
-                    <li><strong>达到了邀请奖励条件的被邀请人奖励</strong><br>奖励：价值58U的H币</li>
-                </ul>
-            </div>
-            
-            <h3 class="modal-subtitle">Boost活动奖励</h3>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
-                <div style="background-color: #f0f9ff; padding: 20px; border-radius: 10px; border: 1px solid #bae6fd;">
-                    <h4 style="color: var(--primary-color); margin-bottom: 10px;">基础奖励</h4>
-                    <p>根据Boost交易量排名，瓜分每期官方新币空投奖励</p>
-                </div>
-                
-                <div style="background-color: #f0f9ff; padding: 20px; border-radius: 10px; border: 1px solid #bae6fd;">
-                    <h4 style="color: var(--primary-color); margin-bottom: 10px;">阶梯奖励</h4>
-                    <p>Boost交易量达到不同阶梯，获得额外奖励加成</p>
-                </div>
-                
-                <div style="background-color: #f0f9ff; padding: 20px; border-radius: 10px; border: 1px solid #bae6fd;">
-                    <h4 style="color: var(--primary-color); margin-bottom: 10px;">忠诚度奖励</h4>
-                    <p>连续参与多期Boost活动，获得忠诚度额外奖励</p>
-                </div>
-            </div>
-            
-            <h3 class="modal-subtitle">质押收益奖励</h3>
-            <ul class="modal-list">
-                <li>质押1-7天：日利率0.5%</li>
-                <li>质押8-15天：日利率0.6%</li>
-                <li>质押16-30天：日利率0.8%</li>
-                <li>质押31-60天：日利率1%</li>
-                <li>质押61天以上：日利率1.2%</li>
-            </ul>
-            
-            <div style="display: flex; gap: 15px; margin-top: 30px; flex-wrap: wrap;">
-                <a href="https://f.wps.cn/ksform/w/write/5rJjd9vy/" target="_blank" class="btn">立即填写表单参与</a>
-                <a href="https://web3.okx.com/ul/3yFdiPq" target="_blank" class="btn btn-accent">购买H代币开始</a>
-            </div>
-        </div>
+    <!-- 固定底部操作栏 -->
+    <div class="fixed-actions">
+        <a href="https://hstaking.space/" target="_blank" class="action-btn">进入链上赚币</a>
+        <a href="https://web3.okx.com/ul/3yFdiPq" target="_blank" class="action-btn accent">购买H代币</a>
     </div>
 
     <!-- 页脚 -->
@@ -1058,10 +1003,10 @@
                 <div class="footer-column">
                     <h3>海豚社区</h3>
                     <p>创新的链上赚币策略，通过阶梯式模型与社区协同策略，重新定义资产增值体验。</p>
-                    <div style="margin-top: 20px;">
-                        <a href="#" style="color: white; margin-right: 15px; font-size: 20px;"><i class="fab fa-telegram"></i></a>
-                        <a href="#" style="color: white; margin-right: 15px; font-size: 20px;"><i class="fab fa-twitter"></i></a>
-                        <a href="#" style="color: white; font-size: 20px;"><i class="fab fa-discord"></i></a>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-discord"></i></a>
                     </div>
                 </div>
                 
@@ -1074,16 +1019,6 @@
                         <li><a href="#calculator">收益计算器</a></li>
                     </ul>
                 </div>
-                
-                <div class="footer-column">
-                    <h3>重要入口</h3>
-                    <ul class="footer-links">
-                        <li><a href="https://hstaking.space/" target="_blank">进入链上赚币</a></li>
-                        <li><a href="https://web3.okx.com/ul/3yFdiPq" target="_blank">立即购买H代币</a></li>
-                        <li><a href="https://oyidl.me/ul/S1ycxF8" target="_blank">欧易社区红包群</a></li>
-                        <li><a href="https://web3.okx.com/zh-hans/boost/records" target="_blank">OKX Boost介绍</a></li>
-                    </ul>
-                </div>
             </div>
             
             <div class="copyright">
@@ -1093,19 +1028,27 @@
     </footer>
 
     <script>
-        // 移动端菜单切换
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
+        // 侧边菜单功能
+        const menuBtn = document.getElementById('menuBtn');
+        const sideMenu = document.getElementById('sideMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
         
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('active');
+        menuBtn.addEventListener('click', () => {
+            sideMenu.classList.add('active');
+            menuOverlay.classList.add('active');
         });
         
-        // 关闭移动端菜单当点击链接时
-        const mobileLinks = mobileMenu.querySelectorAll('a');
-        mobileLinks.forEach(link => {
+        menuOverlay.addEventListener('click', () => {
+            sideMenu.classList.remove('active');
+            menuOverlay.classList.remove('active');
+        });
+        
+        // 关闭侧边菜单当点击链接时
+        const sideMenuLinks = sideMenu.querySelectorAll('a');
+        sideMenuLinks.forEach(link => {
             link.addEventListener('click', () => {
-                mobileMenu.classList.remove('active');
+                sideMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
             });
         });
         
@@ -1117,31 +1060,21 @@
             'rules': document.getElementById('rulesModal'),
             'strategy': document.getElementById('strategyModal'),
             'calculator': document.getElementById('calculatorModal'),
-            'access': document.getElementById('accessModal'),
-            'steps': document.getElementById('stepsModal'),
-            'support': document.getElementById('supportModal'),
-            'rewards': document.getElementById('rewardsModal')
+            'access': document.getElementById('accessModal')
         };
         
         const closeModalButtons = document.querySelectorAll('.close-modal');
         
-        // 为每个九宫格项目添加点击事件
+        // 为每个网格项目添加点击事件
         gridItems.forEach(item => {
             item.addEventListener('click', function() {
                 const modalType = this.getAttribute('data-modal');
                 
                 // 如果模态框存在则显示
                 if (modals[modalType]) {
-                    // 隐藏所有模态框
-                    Object.values(modals).forEach(modal => {
-                        if (modal) modal.style.display = 'none';
-                    });
-                    
                     // 显示对应模态框
-                    modals[modalType].style.display = 'flex';
-                } else {
-                    // 如果模态框不存在，显示一个通用消息
-                    alert('该功能正在开发中，敬请期待！');
+                    modals[modalType].style.display = 'block';
+                    document.body.style.overflow = 'hidden'; // 防止背景滚动
                 }
             });
         });
@@ -1149,7 +1082,9 @@
         // 为关闭按钮添加事件
         closeModalButtons.forEach(button => {
             button.addEventListener('click', function() {
-                this.closest('.modal').style.display = 'none';
+                const modal = this.closest('.modal');
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto'; // 恢复滚动
             });
         });
         
@@ -1157,6 +1092,7 @@
         window.addEventListener('click', function(e) {
             if (e.target.classList.contains('modal')) {
                 e.target.style.display = 'none';
+                document.body.style.overflow = 'auto'; // 恢复滚动
             }
         });
         
@@ -1174,6 +1110,12 @@
                         top: targetElement.offsetTop - 80,
                         behavior: 'smooth'
                     });
+                    
+                    // 如果是侧边菜单链接，关闭菜单
+                    if (this.closest('.side-menu')) {
+                        sideMenu.classList.remove('active');
+                        menuOverlay.classList.remove('active');
+                    }
                 }
             });
         });
@@ -1181,7 +1123,7 @@
         // 页面滚动时更新导航活动状态
         window.addEventListener('scroll', function() {
             const sections = document.querySelectorAll('section');
-            const navLinks = document.querySelectorAll('nav a, .mobile-menu a');
+            const navLinks = document.querySelectorAll('.side-menu a');
             
             let currentSection = '';
             
@@ -1235,8 +1177,48 @@
                 
                 // 显示结果容器
                 document.getElementById('resultsContainer').style.display = 'block';
+                
+                // 滚动到结果
+                document.getElementById('resultsContainer').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest'
+                });
             });
         }
+        
+        // 防止模态框内滚动传播到背景
+        const modalContents = document.querySelectorAll('.modal-content');
+        modalContents.forEach(content => {
+            content.addEventListener('touchmove', function(e) {
+                e.stopPropagation();
+            }, { passive: false });
+        });
+        
+        // 移动端触摸优化
+        let startY;
+        const modalsAll = document.querySelectorAll('.modal');
+        
+        modalsAll.forEach(modal => {
+            modal.addEventListener('touchstart', function(e) {
+                startY = e.touches[0].clientY;
+            });
+            
+            modal.addEventListener('touchmove', function(e) {
+                const currentY = e.touches[0].clientY;
+                const modalContent = this.querySelector('.modal-content');
+                
+                // 允许模态框内部滚动
+                if (modalContent.scrollHeight > modalContent.clientHeight) {
+                    const isAtTop = modalContent.scrollTop === 0;
+                    const isAtBottom = modalContent.scrollHeight - modalContent.scrollTop === modalContent.clientHeight;
+                    
+                    // 如果在顶部向下拉或底部向上拉，阻止事件传播
+                    if ((isAtTop && currentY > startY) || (isAtBottom && currentY < startY)) {
+                        e.stopPropagation();
+                    }
+                }
+            });
+        });
     </script>
 </body>
 </html>
