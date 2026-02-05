@@ -10,19 +10,19 @@
             --primary-color: #1e3a8a;
             --secondary-color: #3b82f6;
             --accent-color: #06b6d4;
-            --light-blue: #eff6ff;
+            --light-blue: #f8fafc;
             --text-dark: #1f2937;
             --text-light: #6b7280;
             --white: #ffffff;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            --transition: all 0.3s ease;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
         
         html, body {
@@ -31,6 +31,18 @@
             background-color: var(--white);
             color: var(--text-dark);
             line-height: 1.6;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+        }
+        
+        /* 字体优化 */
+        h1, h2, h3, h4 {
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+        
+        p, li, span, a {
+            font-weight: 400;
+            letter-spacing: 0.01em;
         }
         
         /* 容器 */
@@ -48,7 +60,7 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 20px rgba(30, 58, 138, 0.2);
         }
         
         .header-content {
@@ -85,6 +97,17 @@
             color: white;
             font-size: 24px;
             cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+        
+        .menu-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
         }
         
         /* 侧边菜单 */
@@ -95,7 +118,7 @@
             width: 280px;
             height: 100%;
             background-color: var(--white);
-            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1);
             z-index: 1000;
             transition: var(--transition);
             padding-top: 70px;
@@ -115,10 +138,13 @@
             background-color: rgba(0, 0, 0, 0.5);
             z-index: 999;
             display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
         
         .menu-overlay.active {
             display: block;
+            opacity: 1;
         }
         
         .side-menu ul {
@@ -136,6 +162,7 @@
             text-decoration: none;
             font-weight: 500;
             transition: var(--transition);
+            font-size: 16px;
         }
         
         .side-menu a:hover,
@@ -150,13 +177,12 @@
             padding: 40px 0 30px;
             text-align: center;
             background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%);
-            margin-bottom: 20px;
         }
         
         .hero h1 {
             font-size: 28px;
             color: var(--primary-color);
-            margin-bottom: 12px;
+            margin-bottom: 16px;
             font-weight: 700;
             line-height: 1.3;
         }
@@ -165,7 +191,8 @@
             font-size: 16px;
             color: var(--text-light);
             max-width: 100%;
-            margin: 0 auto 25px;
+            margin: 0 auto;
+            line-height: 1.6;
         }
         
         .highlight {
@@ -175,25 +202,7 @@
         
         /* 主入口六宫格 */
         .grid-section {
-            padding: 20px 0 40px;
-        }
-        
-        .section-title {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        .section-title h2 {
-            font-size: 24px;
-            color: var(--primary-color);
-            margin-bottom: 8px;
-        }
-        
-        .section-title p {
-            color: var(--text-light);
-            font-size: 15px;
-            max-width: 100%;
-            margin: 0 auto;
+            padding: 30px 0 40px;
         }
         
         .grid-container {
@@ -205,13 +214,13 @@
         
         .grid-item {
             background: var(--white);
-            border-radius: 16px;
+            border-radius: 18px;
             box-shadow: var(--shadow);
-            padding: 25px 20px;
+            padding: 25px 18px;
             text-align: center;
             transition: var(--transition);
             cursor: pointer;
-            border: 1px solid #f1f5f9;
+            border: 1px solid rgba(241, 245, 249, 0.8);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -219,22 +228,28 @@
         }
         
         .grid-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
             border-color: var(--accent-color);
         }
         
         .grid-icon {
             width: 60px;
             height: 60px;
-            background-color: var(--light-blue);
+            background: linear-gradient(135deg, var(--light-blue) 0%, #e0f2fe 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 16px;
+            margin: 0 auto 18px;
             color: var(--primary-color);
             font-size: 24px;
+            transition: var(--transition);
+        }
+        
+        .grid-item:hover .grid-icon {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
         }
         
         .grid-item h3 {
@@ -253,9 +268,9 @@
         
         .btn {
             display: inline-block;
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1e40af 100%);
             color: white;
-            padding: 12px 28px;
+            padding: 14px 28px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 600;
@@ -266,20 +281,21 @@
             margin-top: 15px;
             width: 100%;
             text-align: center;
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
         }
         
         .btn:hover {
-            background-color: var(--secondary-color);
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
         }
         
         .btn-accent {
-            background-color: var(--accent-color);
+            background: linear-gradient(135deg, var(--accent-color) 0%, #0891b2 100%);
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.2);
         }
         
         .btn-accent:hover {
-            background-color: #0891b2;
+            box-shadow: 0 8px 20px rgba(6, 182, 212, 0.3);
         }
         
         /* 便捷访问入口六宫格 */
@@ -292,24 +308,24 @@
         
         .access-item {
             background: var(--white);
-            border-radius: 12px;
+            border-radius: 14px;
             padding: 20px 15px;
             text-align: center;
             box-shadow: var(--shadow);
-            border: 1px solid #f1f5f9;
+            border: 1px solid rgba(241, 245, 249, 0.8);
             transition: var(--transition);
         }
         
         .access-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             border-color: var(--accent-color);
         }
         
         .access-icon {
             width: 50px;
             height: 50px;
-            background-color: var(--light-blue);
+            background: linear-gradient(135deg, var(--light-blue) 0%, #e0f2fe 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -317,6 +333,11 @@
             margin: 0 auto 15px;
             color: var(--primary-color);
             font-size: 20px;
+            transition: var(--transition);
+        }
+        
+        .access-item:hover .access-icon {
+            transform: scale(1.05);
         }
         
         .access-item h4 {
@@ -328,18 +349,20 @@
         
         .access-link {
             display: inline-block;
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1e40af 100%);
             color: white;
-            padding: 8px 16px;
+            padding: 10px 18px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 600;
             font-size: 13px;
             transition: var(--transition);
+            box-shadow: 0 3px 8px rgba(30, 58, 138, 0.2);
         }
         
         .access-link:hover {
-            background-color: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(59, 130, 246, 0.3);
         }
         
         /* 页脚 */
@@ -396,11 +419,19 @@
             color: white;
             font-size: 20px;
             transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
         }
         
         .social-icons a:hover {
             color: var(--accent-color);
             transform: translateY(-3px);
+            background-color: rgba(6, 182, 212, 0.2);
         }
         
         .copyright {
@@ -423,6 +454,12 @@
             background-color: rgba(0, 0, 0, 0.7);
             z-index: 1000;
             overflow-y: auto;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal.active {
+            opacity: 1;
         }
         
         .modal-content {
@@ -430,7 +467,13 @@
             width: 100%;
             min-height: 100vh;
             position: relative;
-            padding: 60px 20px 40px;
+            padding: 70px 20px 40px;
+            transform: translateY(20px);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .modal.active .modal-content {
+            transform: translateY(0);
         }
         
         .close-modal {
@@ -438,37 +481,38 @@
             top: 20px;
             right: 20px;
             font-size: 28px;
-            background: none;
+            background: var(--white);
             border: none;
             color: var(--text-light);
             cursor: pointer;
             transition: var(--transition);
             z-index: 1001;
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: white;
             border-radius: 50%;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
         
         .close-modal:hover {
             color: var(--primary-color);
-            transform: rotate(90deg);
+            transform: rotate(90deg) scale(1.1);
         }
         
         .modal-title {
             color: var(--primary-color);
             margin-bottom: 20px;
             font-size: 24px;
+            line-height: 1.3;
         }
         
         .modal-subtitle {
             color: var(--primary-color);
             margin: 25px 0 15px;
             font-size: 18px;
+            line-height: 1.4;
         }
         
         .modal-list {
@@ -478,21 +522,23 @@
         
         .modal-list li {
             margin-bottom: 10px;
+            line-height: 1.5;
         }
         
         .highlight-box {
             background-color: var(--light-blue);
-            padding: 18px;
-            border-radius: 10px;
+            padding: 20px;
+            border-radius: 12px;
             margin: 20px 0;
             border-left: 4px solid var(--accent-color);
+            line-height: 1.6;
         }
         
         /* 收益计算器样式 */
         .calculator-inputs {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 18px;
             margin: 20px 0;
         }
         
@@ -511,26 +557,37 @@
         .input-group input,
         .input-group select {
             width: 100%;
-            padding: 14px;
+            padding: 14px 16px;
             border: 1px solid #d1d5db;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 16px;
+            transition: var(--transition);
+            background-color: var(--white);
+        }
+        
+        .input-group input:focus,
+        .input-group select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
         }
         
         .calculator-results {
             background-color: var(--light-blue);
-            padding: 20px;
-            border-radius: 10px;
+            padding: 22px;
+            border-radius: 12px;
             margin-top: 20px;
+            border: 1px solid rgba(6, 182, 212, 0.2);
         }
         
         .result-item {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #d1d5db;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(209, 213, 219, 0.5);
             font-size: 15px;
+            line-height: 1.5;
         }
         
         .result-item:last-child {
@@ -546,35 +603,43 @@
             left: 0;
             width: 100%;
             background-color: var(--white);
-            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
-            padding: 12px 16px;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+            padding: 14px 16px;
             display: flex;
-            gap: 10px;
+            gap: 12px;
             z-index: 99;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .fixed-actions.hidden {
+            transform: translateY(100%);
         }
         
         .action-btn {
             flex: 1;
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1e40af 100%);
             color: white;
             border: none;
             border-radius: 50px;
-            padding: 14px;
+            padding: 16px;
             font-weight: 600;
             font-size: 15px;
             cursor: pointer;
             transition: var(--transition);
             text-align: center;
             text-decoration: none;
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
         }
         
         .action-btn.accent {
-            background-color: var(--accent-color);
+            background: linear-gradient(135deg, var(--accent-color) 0%, #0891b2 100%);
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.2);
         }
         
         .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
         }
         
         /* 响应式调整 */
@@ -588,7 +653,7 @@
             }
             
             .grid-item {
-                padding: 30px 20px;
+                padding: 28px 20px;
             }
         }
         
@@ -606,10 +671,6 @@
             
             .hero h1 {
                 font-size: 36px;
-            }
-            
-            .section-title h2 {
-                font-size: 28px;
             }
         }
         
@@ -640,6 +701,32 @@
         
         ::-webkit-scrollbar-thumb:hover {
             background: var(--primary-color);
+        }
+        
+        /* 动画优化 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        /* 加载优化 */
+        .loading {
+            opacity: 0;
+        }
+        
+        .loaded {
+            opacity: 1;
+            transition: opacity 0.3s ease;
         }
     </style>
 </head>
@@ -680,14 +767,9 @@
     <!-- 主入口六宫格 -->
     <section class="grid-section" id="grid">
         <div class="container">
-            <div class="section-title">
-                <h2>海豚社区核心服务</h2>
-                <p>创新的链上赚币策略，通过六大核心模块为您提供全方位支持</p>
-            </div>
-            
             <div class="grid-container">
                 <!-- 入口1: Boost活动介绍 -->
-                <div class="grid-item" data-modal="boost">
+                <div class="grid-item fade-in-up" data-modal="boost" style="animation-delay: 0.1s;">
                     <div class="grid-icon">
                         <i class="fas fa-rocket"></i>
                     </div>
@@ -696,7 +778,7 @@
                 </div>
                 
                 <!-- 入口2: 新人操作指南 -->
-                <div class="grid-item" data-modal="guide">
+                <div class="grid-item fade-in-up" data-modal="guide" style="animation-delay: 0.2s;">
                     <div class="grid-icon">
                         <i class="fas fa-user-graduate"></i>
                     </div>
@@ -705,7 +787,7 @@
                 </div>
                 
                 <!-- 入口3: 规则与奖励说明 -->
-                <div class="grid-item" data-modal="rules">
+                <div class="grid-item fade-in-up" data-modal="rules" style="animation-delay: 0.3s;">
                     <div class="grid-icon">
                         <i class="fas fa-award"></i>
                     </div>
@@ -714,7 +796,7 @@
                 </div>
                 
                 <!-- 入口4: 社区策略 -->
-                <div class="grid-item" data-modal="strategy">
+                <div class="grid-item fade-in-up" data-modal="strategy" style="animation-delay: 0.4s;">
                     <div class="grid-icon">
                         <i class="fas fa-users"></i>
                     </div>
@@ -723,7 +805,7 @@
                 </div>
                 
                 <!-- 入口5: 收益计算器 -->
-                <div class="grid-item" data-modal="calculator">
+                <div class="grid-item fade-in-up" data-modal="calculator" style="animation-delay: 0.5s;">
                     <div class="grid-icon">
                         <i class="fas fa-calculator"></i>
                     </div>
@@ -732,7 +814,7 @@
                 </div>
                 
                 <!-- 入口6: 便捷访问入口 -->
-                <div class="grid-item" data-modal="access">
+                <div class="grid-item fade-in-up" data-modal="access" style="animation-delay: 0.6s;">
                     <div class="grid-icon">
                         <i class="fas fa-door-open"></i>
                     </div>
@@ -1021,7 +1103,7 @@
     </div>
 
     <!-- 固定底部操作栏 -->
-    <div class="fixed-actions">
+    <div class="fixed-actions" id="fixedActions">
         <a href="https://hstaking.space/" target="_blank" class="action-btn">进入链上赚币</a>
         <a href="https://web3.okx.com/ul/3yFdiPq" target="_blank" class="action-btn accent">购买H代币</a>
     </div>
@@ -1058,6 +1140,11 @@
     </footer>
 
     <script>
+        // 页面加载优化
+        window.addEventListener('load', function() {
+            document.body.classList.add('loaded');
+        });
+        
         // 侧边菜单功能
         const menuBtn = document.getElementById('menuBtn');
         const sideMenu = document.getElementById('sideMenu');
@@ -1104,7 +1191,13 @@
                 if (modals[modalType]) {
                     // 显示对应模态框
                     modals[modalType].style.display = 'block';
+                    setTimeout(() => {
+                        modals[modalType].classList.add('active');
+                    }, 10);
                     document.body.style.overflow = 'hidden'; // 防止背景滚动
+                    
+                    // 隐藏底部操作栏
+                    document.getElementById('fixedActions').classList.add('hidden');
                     
                     // 如果是计算器，重置显示
                     if (modalType === 'calculator') {
@@ -1118,16 +1211,28 @@
         closeModalButtons.forEach(button => {
             button.addEventListener('click', function() {
                 const modal = this.closest('.modal');
-                modal.style.display = 'none';
+                modal.classList.remove('active');
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 300);
                 document.body.style.overflow = 'auto'; // 恢复滚动
+                
+                // 显示底部操作栏
+                document.getElementById('fixedActions').classList.remove('hidden');
             });
         });
         
         // 点击模态框外部关闭模态框
         window.addEventListener('click', function(e) {
             if (e.target.classList.contains('modal')) {
-                e.target.style.display = 'none';
+                e.target.classList.remove('active');
+                setTimeout(() => {
+                    e.target.style.display = 'none';
+                }, 300);
                 document.body.style.overflow = 'auto'; // 恢复滚动
+                
+                // 显示底部操作栏
+                document.getElementById('fixedActions').classList.remove('hidden');
             }
         });
         
@@ -1256,6 +1361,24 @@
                 }
             });
         });
+        
+        // 滚动时隐藏/显示底部操作栏
+        let lastScrollTop = 0;
+        const fixedActions = document.getElementById('fixedActions');
+        
+        window.addEventListener('scroll', function() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > lastScrollTop && scrollTop > 100) {
+                // 向下滚动
+                fixedActions.classList.add('hidden');
+            } else {
+                // 向上滚动
+                fixedActions.classList.remove('hidden');
+            }
+            
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        }, { passive: true });
     </script>
 </body>
 </html>
